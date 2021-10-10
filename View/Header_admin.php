@@ -3,12 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Lumino UI Elements</title>
+	<title>Transport</title>
 	<link href="../Assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../Assets/css/font-awesome.min.css" rel="stylesheet">
 	<link href="../Assets/css/datepicker3.css" rel="stylesheet">
 	<link href="../Assets/css/styles.css" rel="stylesheet">
-	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 	<!--[if lt IE 9]>
@@ -17,4 +18,8 @@
 	<![endif]-->
 </head>
 <body>
+<?php 
+require_once '../Helpers/Helpers.php';
+?>
+
   
