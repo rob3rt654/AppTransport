@@ -1,1 +1,2 @@
-# AppTransport
+# TransportApp
+Proyecto aplicaciones informáticas globales
