@@ -2,7 +2,9 @@
 <?php 
 
 require "Header_admin.php"; 
-require "Modals/RegisterModal.php"; 
+require "Modals/RegisterModal.php";
+
+
 
 ?>
 <div class="row">
@@ -10,7 +12,7 @@ require "Modals/RegisterModal.php";
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">Log in</div>
 				<div class="panel-body">
-					<form role="form">
+					<form >
 						<fieldset>
 							<div class="form-group">
 								<input class="form-control" placeholder="E-mail" name="email" type="email" autofocus="">
@@ -18,8 +20,7 @@ require "Modals/RegisterModal.php";
 							<div class="form-group">
 								<input class="form-control" placeholder="Password" name="password" type="password" value="">
 							</div>
-							
-							<a href="index.html" class="btn btn-primary">Sing in</a>
+							<button type="button" class="btn btn-primary" name="iniciar" id="iniciar">Sign in</button>
 							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Sign up</button>
 						</fieldset>
 							
