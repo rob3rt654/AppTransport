@@ -1,8 +1,8 @@
 <?php
-/*session_start();
+session_start();
 if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     header('Location: ../index.html');
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +27,10 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
 
     <script src="../js/vendedores.js"></script>
     <script src="../js/rutas.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="dist/jquery.tabledit.js"></script>
+    <script type="text/javascript" src="custom_table_edit.js"></script>
 </head>
 
 <body onload="llenarCartas()">
@@ -100,7 +104,6 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                     <li class="nav-item  active ">
                         <a class="nav-link  active " href="vistaPrincipal.php">
                             <i class="fas fa-home text-primary"></i> Principal
-
                         </a>
                     </li>
                     <li class="nav-item">
@@ -126,6 +129,7 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
             </div>
         </div>
     </nav>
+
     <div class="main-content">
         <!-- Navbar -->
         <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
@@ -169,34 +173,6 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
         <!-- End Navbar -->
         <!-- Header -->
         <div class="header bg-gradient-custom pb-8 pt-5 pt-md-8">
-            <div class="container-fluid">
-                <div id="cartasRutas" class="header-body">
-                    <!-- Card stats -->
-
-                </div>
-            </div>
+            
         </div>
-        <div class="container-fluid mt--7">
-
-
-
-        </div>
-        <div class="footer">
-
-            <footer class="footer-basic-centered">
-
-                <div class="footer-company-name">
-                    <h1>Universidad Nacional de Costa Rica</h1>
-                    <p>Smart Transport</p>
-
-                </div>
-
-                <p class="footer-company-name"> &copy; 2020</p>
-
-            </footer>
-        </div>
-    </div>
-
-</body>
-
-</html>
+        
