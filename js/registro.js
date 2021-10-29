@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2'
 function registrar(){
     console.log("entre")
     var formulario = document.getElementById('formregistroUsuario');
@@ -26,20 +25,10 @@ function registrar(){
         .then(data=>{
             console.log(data)
             if(data=="1"){
-                Swal.fire({
-                    title: 'Registro exitoso',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
+                alert("usuario registrado")
+                location.href='../index.html'
             }else{
-                Swal.fire({
-                    title: 'Ocurrió un error',
-                    text: 'Los datos no se registraron, intenta de nuevo',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
+                alert("usuario no registrado")
 
             }
            
