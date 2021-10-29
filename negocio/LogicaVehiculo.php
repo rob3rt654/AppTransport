@@ -20,7 +20,7 @@ class LogicaVehiculo
 
     public function consultar($id)
     {
-        return $this->datos->consultar();
+        return $this->datos->consultar($id);
     }
     public function actualizar($vehiculo)
     {

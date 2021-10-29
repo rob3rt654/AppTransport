@@ -1,7 +1,6 @@
 <?php
 include './LogicaVehiculo.php';
 include '../dominio/Vehiculo.php';
-//print_r($_POST);
 $accion = (isset($_POST['accion'])) ? $_POST['accion'] : 'null' ;
 
 $logicaVehiculo = new logicaVehiculo();
@@ -20,12 +19,13 @@ if($accion=="insertar"){
 }
 
 if($accion=="null"){
-    
 
     $logicaVehiculo->consultar();
     include_once "../vista/vistaVehiculos.php";
+} else if ($accion == "consultar") {
+    $id_vendedor = $_POST['id_vendedor'];
+    echo $logicaVehiculo->consultar($id_vendedor);
+
 }
-
-
 
 ?>

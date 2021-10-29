@@ -17,7 +17,7 @@ class datosVehiculo
   {
 
     $crearConexion = $this->conexion->crearConexion($id_vendedor);
-    $consulta = "SELECT * FROM tbVehiculos where id_vendedor=".$id_vendedor;
+    $consulta = "SELECT * FROM vehiculos where id_vendedor=".$id_vendedor;
     $resultado = mysqli_query($crearConexion,$consulta);
     $vehiculos = array();
     while ($result = $resultado->fetch_assoc()) {

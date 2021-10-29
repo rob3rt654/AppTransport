@@ -12,26 +12,26 @@ class LogicaVendedor
         $this->datosVendedor = new datosVendedor();
     }
 
-    public function insertar($administrador)
+    public function insertar($vendedor)
     {
 
-        return $this->datosAdministrador->insertar($administrador);
+        return $this->datosVendedor->insertar($vendedor);
     }
 
     public function consultar()
     {
 
-        return $this->datosAdministrador->consultar();
+        return $this->datosVendedor->consultar();
     }
-    public function actualizar($administrador)
+    public function actualizar($vendedor)
     {
 
-        return $this->datosAdministrador->actualizar($administrador);
+        return $this->datosVendedor->actualizar($vendedor);
     }
     public function eliminar($id)
     {
 
-        return $this->datosAdministrador->eliminar($id);
+        return $this->datosVendedor->eliminar($id);
     }
 
     public function verificarVendedor($correo,$contrasena)
@@ -42,6 +42,6 @@ class LogicaVendedor
     public function verificarAdmiWS($correo,$contrasena)
     {
 
-        return $this->datosAdministrador->verificarAdmiWS($correo,$contrasena);
+        return $this->datosVendedor->verificarAdmiWS($correo,$contrasena);
     }
 }

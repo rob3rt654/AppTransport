@@ -15,20 +15,24 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     </title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-
+    
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link rel="stylesheet" href="../css/estilos.css">
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="../css/plantilla.css">
 
     <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap/bootstrap.min.js"></script>
     <script src="../js/bootstrap/popper.min.js"></script>
-
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
     <script src="../js/servicios.js"></script>
+
+    
+    
 </head>
 
-<body onload="llenarCartas()">
+<body onload="llenarDatos('<?php echo $_SESSION['id']; ?>')">
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <!-- Toggler -->
@@ -174,15 +178,79 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
         <!-- Header -->
         <div class="header bg-gradient-custom pb-8 pt-5 pt-md-8">
             <div class="container-fluid">
-                <div id="cartas" class="header-body">
+                <div id="cartasRutas" class="header-body">
                     <!-- Card stats -->
 
                 </div>
             </div>
         </div>
         <div class="container-fluid mt--7">
-            
+        <div class="col-xl-12 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Agregar nuevo Servicio</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form>
+                <h6 class="heading-small text-muted mb-4">Detalles de servicio</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">Nombre</label>
+                        <input type="text" id="nombre" class="form-control form-control-alternative" placeholder="Nombre">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-first-name">Tipo de Servicio</label>
+                        <select name="" class="selectpicker form-control form-control-alternative" data-live-search="true" id="tipos_servicios">
 
+
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4" />
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Vehiculo</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address">Seleccionar Vehiculo</label>
+                        <select name="" class="selectpicker form-control form-control-alternative" data-live-search="true" id="vehiculos">
+
+
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4" />
+                <!-- Description -->
+                <h6 class="heading-small text-muted mb-4">Terminos & Condiciones</h6>
+                <div class="pl-lg-4">
+                  <div class="form-group">
+                    <label>Terminos & Condiciones</label>
+                    <textarea rows="4" id="terminos" class="form-control form-control-alternative" placeholder="Terminos & Condiciones"></textarea>
+                  </div>
+                </div>
+
+              </form>
+              <div class="col-md-2">
+                  <button onclick="agregar()" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         </div>
         <div class="footer">
