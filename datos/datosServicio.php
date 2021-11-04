@@ -15,9 +15,9 @@ class datosServicio
 
   function consultar()
   {
-
+    $id_usuario = $_SESSION['id_usuario'];
     $crearConexion = $this->conexion->crearConexion();
-    $consulta = "SELECT servicios.* , tipo_servicios.nombre_tipo_servicio AS tipo_servicio , vehiculos.* FROM servicios INNER JOIN tipo_servicios INNER JOIN vehiculos ON servicios.id_tipo_servicio = tipo_servicios.id_tipo_servicio AND vehiculos.id_vehiculo = servicios.id_vehiculo";
+    $consulta = "SELECT servicios.* , tipo_servicios.nombre_tipo_servicio AS tipo_servicio , vehiculos.* FROM servicios INNER JOIN tipo_servicios INNER JOIN vehiculos ON servicios.id_tipo_servicio = tipo_servicios.id_tipo_servicio AND vehiculos.id_vehiculo = servicios.id_vehiculo AND servicios.id_vendedor = $id_usuario";
     $resultado = mysqli_query($crearConexion,$consulta);
     $servicios = array();
     while ($result = $resultado->fetch_assoc()) {

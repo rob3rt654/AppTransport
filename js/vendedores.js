@@ -217,7 +217,9 @@ function verificarUsuario() {
     }, function (responseText) {
         if (responseText == 1) {
         location.href = "./vista/vistaPrincipal.php";
-      } else {
+      } else if (responseText == 2) {
+        location.href = "./vista/vistaPrincipalCliente.php";
+      }else {
         alert("Contraseña incorrecta");
       }
     });

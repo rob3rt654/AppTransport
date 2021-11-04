@@ -26,6 +26,7 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     <script src="../js/bootstrap/popper.min.js"></script>
 
     <script src="../js/servicios.js"></script>
+    <script src="../js/cerrar_sesion.js"></script>
 </head>
 
 <body onload="llenarCartas()">
@@ -105,11 +106,6 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                     <li class="nav-item">
                         <a class="nav-link " href="../negocio/AccionVehiculo.php">
                             <i class="fas fa-bus text-blue"></i>Vehiculos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="vistaExtras.php">
-                            <i class="fas fa-cogs text-orange"></i> Extras
                         </a>
                     </li>
                     <li class="nav-item">

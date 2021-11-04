@@ -88,21 +88,35 @@ function verificarVendedor($correo, $contrasena)
     $nombre = "";
     $crearConexion = $this->conexion->crearConexion();
     
-    $consulta = mysqli_query ($crearConexion, "SELECT * FROM personas WHERE email = '$correo' AND contrasena = '$contrasena' AND tipo_usuario = 1");  
+    $consulta = mysqli_query ($crearConexion, "SELECT * FROM personas WHERE email = '$correo' AND contrasena = '$contrasena'");  
 
     while($row = $consulta->fetch_assoc()){
 
       $id = $row['id_persona'];
       $nombre = $row['nombre'];
+      $tipo_usuario = $row['tipo_usuario'];
     }
     if ($id != 0) {
       $_SESSION['id'] = $id;
       $_SESSION['nombre'] = $nombre;
-      $acceso = 1;
+      $_SESSION['tipo_usuario'] = $tipo_usuario;
+      $acceso = $tipo_usuario;
     } else {
       $_SESSION['id'] = "";
       $acceso = 0;
     }
+
+    if($tipo_usuario == "1"){
+      $rs = mysqli_query($crearConexion, "SELECT id_vendedor AS id_usuario FROM vendedores WHERE id_persona = $id");
+    }else{
+      $rs = mysqli_query($crearConexion, "SELECT id_cliente AS id_usuario FROM clientes WHERE id_persona = $id");
+    }
+    while($row = $rs->fetch_assoc()){
+
+      $id = $row['id_usuario'];
+      $_SESSION['id_usuario'] = $id;
+    }
+
     $crearConexion->close();
     return $acceso;
   }
