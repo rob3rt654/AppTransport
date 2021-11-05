@@ -28,6 +28,19 @@ class datosServicio
     $crearConexion->close();
   }
 
+  function consultarTodos()
+  {
+    $crearConexion = $this->conexion->crearConexion();
+    $consulta = "SELECT servicios.* , tipo_servicios.nombre_tipo_servicio AS tipo_servicio , vehiculos.* FROM servicios INNER JOIN tipo_servicios INNER JOIN vehiculos ON servicios.id_tipo_servicio = tipo_servicios.id_tipo_servicio AND vehiculos.id_vehiculo = servicios.id_vehiculo";
+    $resultado = mysqli_query($crearConexion,$consulta);
+    $servicios = array();
+    while ($result = $resultado->fetch_assoc()) {
+      array_push($servicios, $result);
+    }
+
+    return json_encode($servicios);
+    $crearConexion->close();
+  }
 
   function insertar($terminos_condiciones, $nombre_servicio, $id_tipo_servicio, $id_vehiculo)
   {
