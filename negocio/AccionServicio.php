@@ -17,6 +17,9 @@ $logicaServicio = new LogicaServicio();
     } else if ($accion == "consultar") {
     
         echo $logicaServicio->consultar();
+    } else if ($accion == "consultarTodos") {
+    
+      echo $logicaServicio->consultarTodos();
     } else if ($accion == "actualizar") {
     
     

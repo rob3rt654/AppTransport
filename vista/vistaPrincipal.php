@@ -113,6 +113,12 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                             <i class="fas fa-dolly text-orange"></i> Servicios
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vistaSolicitudesVendedor.php">
+                        <i class="fas fa-clipboard-list text-red"></i> Solicitudes
+
+                        </a>
+                    </li>
         
                 </ul>
                 <!-- Divider -->

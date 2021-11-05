@@ -20,13 +20,30 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     <link rel="stylesheet" href="../css/estilos.css">
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="../css/plantilla.css">
-
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvqnZpS3wSkso426z5wlgxmT1R69q6NXM&libraries=places&callback=initMap"></script>
     <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>
     <script src="../js/bootstrap/bootstrap.min.js"></script>
     <script src="../js/bootstrap/popper.min.js"></script>
 
-    <script src="../js/cliente_principal.js"></script>
+    <script src="../js/principal_cliente.js"></script>
     <script src="../js/cerrar_sesion.js"></script>
+    <style>
+        .modal{
+            z-index: 20;   
+        }
+        .modal-backdrop{
+            z-index: 10;        
+        }​
+        .pac-container {
+            background-color: #FFF;
+            z-index: 20;
+            position: fixed;
+            display: inline-block;
+            float: left;
+        }
+    </style>
+        
+    
 </head>
 
 <body onload="llenarCartas()">
@@ -98,18 +115,18 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item  active ">
-                        <a class="nav-link  active " href="vistaPrincipal.php">
+                        <a class="nav-link  active " href="vistaPrincipalCliente.php">
                             <i class="fas fa-home text-primary"></i> Buscar Servicios
 
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="../negocio/AccionVehiculo.php">
+                        <a class="nav-link " href="vistaSolicitudesCliente.php">
                             <i class="fas fa-bus text-blue"></i>Mis solicitudes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="vistaServicios.php">
+                        <a class="nav-link " href="vistaPagos.php">
                             <i class="fas fa-dollar-sign text-orange"></i> Mis pagos
                         </a>
                     </li>
@@ -178,8 +195,135 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
         </div>
         <div class="container-fluid mt--7">
             
+        <div id="modalSolicitud" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Solicitar Servicio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span onclick="cerrar()" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" name="id_servicio" id="id_servicio">
+                            <div class="pl-lg-3">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-fecha-inicio">Fecha de Inicio</label>
+                                                <input type="date" class="form-control input" id="fecha_inicio" placeholder="Fecha de Inicio" required>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-fecha-final">Fecha Final</label>
+                                                <input type="date" class="form-control input" id="fecha_final" placeholder="Fecha Final" required>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <hr class="my-4" />
+                                    <h6 class="heading-small text-muted mb-4">Mapa</h6>
+                                    <div class="pl-lg-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-address">Origen</label>
+                                                    <input type="text" class="form-control input" id="searchInput" placeholder="Origen" required>
+                                                    <input type="hidden" class="form-control input" id="nombrelugar1" placeholder="Origen" required>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-address">Destino</label>
+                                                    <input type="text" class="form-control input" id="searchInput2" placeholder="Destino" required>
+                                                    <input type="hidden" class="form-control input" id="nombrelugar2" placeholder="Origen" required>
 
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-duracion">Duración Promedio</label>
+                                                    <input type="text" class="form-control input" id="duracion" placeholder="Duración Promedio" required readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-distancia">Distancia</label>
+                                                    <input type="text" class="form-control input" id="distancia" placeholder="Distancia" required readonly>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="map" style="width: 530px; height: 300px;">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4" />
+                                    <div class="pl-lg-4">
+                                        <div class="row justify-content-end">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+
+                                                    <button id="btnAgregar" onclick="solicitarServicio()" type="button" class="btn btn-primary">Solicitar Servicio</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+        </div>
+
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons">&#xE876;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" id="textoModal"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="cerrar()" class="btn btn-success btn-block">OK</button>
+                    </div>
+
+                </div>
+            </div>
         </div>
         <div class="footer">
 

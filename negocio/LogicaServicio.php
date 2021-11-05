@@ -22,6 +22,12 @@ class LogicaServicio
 
         return $this->datosServicio->consultar();
     }
+
+    public function consultarTodos()
+    {
+
+        return $this->datosServicio->consultarTodos();
+    }
     public function actualizar($servicio)
     {
 
