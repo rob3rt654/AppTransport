@@ -1,5 +1,10 @@
 <?php
-session_start();
+
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
+
 if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     header('Location: ../index.html');
 }

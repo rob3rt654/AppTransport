@@ -21,12 +21,17 @@
           </div>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Cantidad de peso</label>
-            <input type="text" class="form-control" id="peso" name="peso"> 
+            <input type="number" class="form-control" id="peso" name="peso"> 
           </div>
 
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Cantidad de personas</label>
-            <input type="text" class="form-control" id="personas" name="personas"> 
+            <input type="number" class="form-control" id="personas" name="personas"> 
+          </div>
+
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Imagen</label>
+            <input type="file" class="form-control" id="imagen" name="imagen"> 
           </div>
 
           <div class="form-group">

@@ -14,7 +14,7 @@ class Vehiculo
     public function __construct($id_vehiculo, $color, $placa, $imagenes, $cantidad_peso,$cantidad_personas,$id_tipo_vehiculo)
     {
 
-        $this->id_vendedor = $id_vendedor;
+        //$this->id_vendedor = $id_vendedor;
         $this->color = $color;
         $this->placa = $placa;
         $this->imagenes = $imagenes;
