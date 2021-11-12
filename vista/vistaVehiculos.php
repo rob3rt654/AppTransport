@@ -12,7 +12,7 @@ include_once "Modals/ModalVehiculo.php";
 <div class="row">
     <?php foreach ($vehiculos as $key => $value) :?>
     <div class="col-4">
-        <div class="card" style="width: 18rem;">
+        <div class="card " style="width: 18rem;">
         
             <img class="card-img-top" src="../imagenes/1-img.jpg" alt="Card image cap">
             

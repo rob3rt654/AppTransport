@@ -177,7 +177,7 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
         </nav>
         <!-- End Navbar -->
         <!-- Header -->
-        <div class="header bg-gradient-custom pb-8 pt-5 pt-md-8">
+        <div class="header bg-gradient-custom   pt-md-6">
             
         </div>
         
