@@ -5,7 +5,7 @@ function llenarSolicitudes() {
   $.post(
     "../negocio/AccionSolicitudServicio.php",
     {
-      accion: "consultarSolicitudesVendedor",
+      accion: "consultarSolicitudesCliente",
     },
     function (responseText) {
       retorno = "";
@@ -31,8 +31,8 @@ function llenarSolicitudes() {
         retorno +=
           "<span class='" +
           "h2 font-weight-bold mb-0" +
-          "'>Cliente: " +
-          obj[i].nombre + obj[i].apellidos + 
+          "'>Vendedor: " +
+          obj[i].nombre + " " + obj[i].apellidos + 
           "</span>";
         retorno += "<p  class='" + "mt-3 mb-0 text-sm" + "'>";
         retorno += obj[i].place_id_inicio +" - "+obj[i].place_id_final
@@ -52,63 +52,69 @@ function llenarSolicitudes() {
         retorno += "<div class=row>";
         retorno += "<div class=col-md-12>";
         if(obj[i].estado == 'confirmado'){
-          costo = obj[i].reestimacion != null ?  obj[i].reestimacion : obj[i].estimacion 
-          retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
-          retorno += "<span class='" + "text-success mr-2" + "'>";
-          retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Costo: " + costo+ "</span>";
-          retorno += "</p>";
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
           retorno += "<span class='" + "text-success mr-2" + "'>";
           retorno += "<i class='" + "fas fa-check" + "'></i>";
           retorno += " Confirmado y pagado </span>";
           retorno += "</p>";
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud2('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
         }else if(obj[i].estimacion == null){
-          retorno += "<span class='" + "badge badge-dot mr-4 mt-3" + "'><i class=bg-warning></i> Se requiere estimacion...</span>";
+          retorno += "<span class='" + "badge badge-dot mr-4 mt-3" + "'><i class=bg-warning></i> Esperando estimacion...</span>";
           retorno += "<br>"
-          retorno += "<button  onclick= \"" + "abrirModalEstimacion('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "')\"" 
-          + "class='" + "btn btn-success mt-2" + "'>Estimar Costo</a>"
-          retorno += "<button onclick=abrirModalRechazar('" +obj[i].id_solicitud+ "') class='" + " btn btn-danger mt-2" + "'>Rechazar</a>"
+          retorno += "<button onclick=cancelarServicio('" +obj[i].id_solicitud+ "') class='" + " btn btn-danger mt-2" + "'>Cancelar Solicitud</a>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion == null){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
           retorno += "<span class='" + "text-success mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Estimacion: " + obj[i].estimacion + "</span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "abrirModalEstimacion('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "')\"" 
-          + "class='" + "btn btn-success mt-2" + "'>Acualizar Costo</a>"
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a>"
+          retorno += "<button  onclick= \"" + "solicitarNuevaEstimacion('" +obj[i].id_solicitud+ "')\"" 
+          + "class='" + "btn btn-danger mt-2" + "'>Solicitar Reestimación</a>"
+          retorno += "<button  onclick= \"" + "confirmarServicio('" +obj[i].id_solicitud+ "')\"" 
+          + "class='" + "btn btn-primary mt-2" + "'>Confirmar Servicio</a></button>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == null){
-          retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
+          retorno += "<p class='" + "mt-3 mb-0 text-muted text-md" + "'>";
           retorno += "<span class='" + "text-success mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Estimacion: " + obj[i].estimacion + "</span>";
+          retorno += " Estimación: " + obj[i].estimacion + "</span>";
           retorno += "<span class='" + "text-danger mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Estimación Cliente: " + obj[i].reestimacion + "</span>";
+          retorno += "  Tu estimación: " + obj[i].reestimacion + "</span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "verReestimacion('" +obj[i].id_solicitud+ "', '" +obj[i].motivo_reestimacion+ "', '" +obj[i].reestimacion+ "')\"" 
-          + "class='" + "btn btn-primary mt-2" + "'>Ver Reestimación</a>"
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
+          retorno += "<span class='" + "badge badge-dot ml-4 mt-3" + "'><i class=bg-warning></i> Esperando confirmación...</span>";
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == "rechazada"){
-          retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
+          retorno += "<p class='" + "mt-3 mb-0 text-muted text-md" + "'>";
           retorno += "<span class='" + "text-success mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Estimacion: " + obj[i].estimacion + "</span>";
+          retorno += " Estimación: " + obj[i].estimacion + "</span>";
           retorno += "<span class='" + "text-danger mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Estimación Cliente: " + obj[i].reestimacion + " (rechazada) </span>";
+          retorno += "  Tu estimación: " + obj[i].reestimacion + " (rechazada)</span>";
           retorno += "</p>";
-          retorno += "<span class='" + "badge badge-dot ml-1 mt-3" + "'><i class=bg-warning></i> Esperando confirmación...</span>";
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
+          retorno += "<button  onclick= \"" + "confirmarServicio('" +obj[i].id_solicitud+ "')\"" 
+          + "class='" + "btn btn-primary mt-2" + "'>Confirmar Servicio</a></button>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == "aceptada"){
-          retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
+          retorno += "<p class='" + "mt-3 mb-0 text-muted text-md" + "'>";
           retorno += "<span class='" + "text-success mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Estimacion: " + obj[i].estimacion + "</span>";
+          retorno += " Estimación: " + obj[i].estimacion + "</span>";
           retorno += "<span class='" + "text-success mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
-          retorno += " Estimación Cliente: " + obj[i].reestimacion + " (aceptada) </span>";
+          retorno += "  Tu estimación: " + obj[i].reestimacion + " (aceptada)</span>";
           retorno += "</p>";
-          retorno += "<span class='" + "badge badge-dot ml-1 mt-3" + "'><i class=bg-warning></i> Esperando confirmación...</span>";
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
+          retorno += "<button  onclick= \"" + "confirmarServicioDirecto('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          + "class='" + "btn btn-primary mt-2" + "'>Confirmar Servicio</a></button>"
         }
+         
         retorno += "</div>";
         retorno += "</div>";
         retorno += "</div>";
@@ -126,47 +132,97 @@ function llenarSolicitudes() {
   );
 }
 
-function abrirModalRechazar(id){
-  $("#solicitudEliminar").val(id)
-  $("#modalEliminar").modal();
-}
-
 function cerrar(){
   $('#modalSolicitud').modal('hide');
   $('#modalEliminar').modal('hide');
   $('#myModal').modal('hide');
-  $('#modalVerReestimacion').modal('hide');
+  $('#modalReestimacion').modal('hide');
+  $('#modalPago').modal('hide');
 }
 
-function verReestimacion(id, motivo, estimacion){
-  $("#soli").val(id);
-  $("#motivo").html(motivo);
-  $("#nueva_estimacion").html(estimacion);
-  $("#modalVerReestimacion").modal();
+function solicitarNuevaEstimacion(id){
+  $("#id_solicitud_reestimacion").val(id)
+  $("#modalReestimacion").modal();
 }
 
-function estimarServicio(){
+function cancelarServicio(id){
+  $("#solicitudEliminar").val(id)
+  $("#modalEliminar").modal();
+}
+
+function abrirModalSolicitud(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion){
+  initMap();
+  var punto1 = new google.maps.LatLng(lat1, lon1);
+  var punto2 = new google.maps.LatLng(lat2, lon2);
+  marcarRuta(punto1, punto2);
+  $(".pago_row").css('display', 'none');
+  $(".mapa_row").css('display', 'block');
+  $("#btnconfirmarservicio").css('display', 'block');
+  $("#btnconfirmarpago").css('display', 'none');
+  $("#fechas").html(fecha_inicio+" - "+fecha_final);
+  $("#viaje").html(lugar_1+" - "+lugar_2);
+  $("#estimacion").html(estimacion+" colones");
+  $("#id_solicitud").val(id);
+  $("#modalSolicitud").modal();
+}
+
+function abrirModalSolicitud2(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion){
+  initMap();
+  var punto1 = new google.maps.LatLng(lat1, lon1);
+  var punto2 = new google.maps.LatLng(lat2, lon2);
+  marcarRuta(punto1, punto2);
+  $(".pago_row").css('display', 'none');
+  $(".mapa_row").css('display', 'block');
+  $("#btnconfirmarservicio").css('display', 'none');
+  $("#btnconfirmarpago").css('display', 'none');
+  $("#fechas").html(fecha_inicio+" - "+fecha_final);
+  $("#viaje").html(lugar_1+" - "+lugar_2);
+  $("#estimacion").html(estimacion+" colones");
+  $("#id_solicitud").val(id);
+  $("#modalSolicitud").modal();
+}
+
+function confirmarServicioDirecto(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion){
+  confirmarServicio();
+  $("#fechas").html(fecha_inicio+" - "+fecha_final);
+  $("#viaje").html(lugar_1+" - "+lugar_2);
+  $("#estimacion").html(estimacion+" colones");
+  $("#id_solicitud").val(id);
+  $("#modalSolicitud").modal();
+}
+
+function confirmarServicio(){
+  $(".mapa_row").css('display', 'none');
+  $(".pago_row").css('display', 'block');
+  $("#btnconfirmarservicio").css('display', 'none');
+  $("#btnconfirmarpago").css('display', 'block');
+}
+
+function confirmarPago(){
+  $("#modalPago").modal();
+}
+
+function enviarSolicitudReestimacion(){
   $.post(
     "../negocio/AccionSolicitudServicio.php",
     {
-      accion: "estimarServicio",
-      id: $("#id_solicitud").val(),
+      accion: "solicitudReestimacion",
+      id: $("#id_solicitud_reestimacion").val(),
       estimacion: $("#estimacion").val().replace(/,/g, ""),
+      motivo: $("#motivo").val(),
     },
     function (responseText) {
       if (responseText == "1") {
         cerrar();
-        location.href = "./vistaSolicitudesVendedor.php";
-        $("#textoModalConfirmacion").html("Se ha estimado correctamente!");
+        $("#textoModalConfirmacion").html("Se ha enviado correctamente!");
         $("#myModal").modal();
       } else {
-        alert("No se ha estimado");
+        alert("No se ha rechazado");
       }
     }
   );
-
-
 }
+
 function rechazarSolicitud(){
   $.post(
     "../negocio/AccionSolicitudServicio.php",
@@ -177,7 +233,7 @@ function rechazarSolicitud(){
     function (responseText) {
       if (responseText == "1") {
         cerrar();
-        $("#textoModalConfirmacion").html("Se ha rechazado correctamente!");
+        $("#textoModalConfirmacion").html("Se ha cancelado correctamente!");
         $("#myModal").modal();
         $("#"+$("#solicitudEliminar").val()).remove()
       } else {
@@ -187,56 +243,23 @@ function rechazarSolicitud(){
   );
 }
 
-function rechazarReestimacion(){
+function realizarPago(){
   $.post(
     "../negocio/AccionSolicitudServicio.php",
     {
-      accion: "rechazarReestimacion",
-      id: $("#soli").val(),
+      accion: "realizarPago",
+      id: $("#id_solicitud").val(),
     },
     function (responseText) {
       if (responseText == "1") {
         cerrar();
-        location.href = "./vistaSolicitudesVendedor.php";
-        $("#textoModalConfirmacion").html("Se ha rechazado correctamente!");
+        $("#textoModalConfirmacion").html("Se ha realizado el pago con éxito!");
         $("#myModal").modal();
       } else {
         alert("No se ha rechazado");
       }
     }
   );
-}
-
-function aceptarReestimacion(){
-  $.post(
-    "../negocio/AccionSolicitudServicio.php",
-    {
-      accion: "aceptarReestimacion",
-      id: $("#soli").val(),
-    },
-    function (responseText) {
-      if (responseText == "1") {
-        cerrar();
-        location.href = "./vistaSolicitudesVendedor.php";
-        $("#textoModalConfirmacion").html("Se ha aceptado correctamente!");
-        $("#myModal").modal();
-      } else {
-        alert("No se ha rechazado");
-      }
-    }
-  );
-}
-
-
-function abrirModalEstimacion(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2){
-  initMap();
-  var punto1 = new google.maps.LatLng(lat1, lon1);
-  var punto2 = new google.maps.LatLng(lat2, lon2);
-  marcarRuta(punto1, punto2);
-  $("#searchInput").val(lugar_1);
-  $("#searchInput2").val(lugar_2);
-  $("#id_solicitud").val(id);
-  $("#modalSolicitud").modal();
 }
 
 //mapa

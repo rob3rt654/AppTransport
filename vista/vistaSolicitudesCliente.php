@@ -20,16 +20,37 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     <link rel="stylesheet" href="../css/estilos.css">
     <link rel="stylesheet" href="../css/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="../css/plantilla.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvqnZpS3wSkso426z5wlgxmT1R69q6NXM&libraries=places&callback=initMap"></script>
 
     <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.Maskmoney.js" type="text/javascript"></script>
+
     <script src="../js/bootstrap/bootstrap.min.js"></script>
     <script src="../js/bootstrap/popper.min.js"></script>
 
-    <script src="../js/principal_cliente.js"></script>
+    <script src="../js/solicitudes_cliente.js"></script>
     <script src="../js/cerrar_sesion.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#estimacion").maskMoney({
+                prefix: '₡',
+                allowNegative: false,
+                thousands: ',',
+                decimal: '.',
+                affixesStay: false,
+                masked: false
+            });
+        });
+    </script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 
-<body>
+<body onload="llenarSolicitudes()">
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <!-- Toggler -->
@@ -178,9 +199,272 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
         </div>
         <div class="container-fluid mt--7">
             
+        <div id="modalSolicitud" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalles del servicio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span onclick="cerrar()" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" name="id_solicitud" id="id_solicitud">
+                            <div class="pl-lg-3">
+                                    <div class="pl-lg-4">
+                                        <div class="row">
+                                        <div class="col-xl-6 col-lg-6">
+                                            <div class="card card-stats mb-4 mb-xl-0">
+                                                <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">Fechas</h5>
+                                                    <span id="fechas" class="h5 font-weight-bold mb-0">13/05/2021 - 13/05/2021</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                        <i class="fas fa-calendar"></i>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6">
+                                            <div class="card card-stats mb-4 mb-xl-0">
+                                                <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">Viaje</h5>
+                                                    <span id="viaje" class="h5 font-weight-bold mb-0">Rio Frio - San Jose</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                        <i class="fas fa-car"></i>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                        <div class="col-xl-6 col-lg-6">
+                                            <div class="card card-stats mb-4 mb-xl-0">
+                                                <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">Costo Total</h5>
+                                                    <span id="costo" class="h5 font-weight-bold mb-0">56000 colones</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                        <i class="fas fa-money-bill-alt"></i>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6">
+                                            <div class="card card-stats mb-4 mb-xl-0">
+                                                <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                    <h5 class="card-title text-uppercase text-muted mb-0">Cantidad de Personas</h5>
+                                                    <span id="cantpersonas" class="h5 font-weight-bold mb-0">85</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                        <i class="fas fa-users"></i>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
 
+                                        
+
+                                        <h6 class="heading-small text-muted mb-4">Mapa</h6>
+                                        <div class="row mapa_row">
+                                            <div class="col-md-12">
+                                                <div id="map" style="width: 530px; height: 300px;">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mt-2 pago_row">
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="nombre">Nombre en su Tarjeta</label>
+                                                    <input type="input" class="form-control input" id="nombre" placeholder="Nombre en la tarjeta" required>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-fecha-final">Numero de tarjeta</label>
+                                                    <input type="input" class="form-control input" id="num_tarjeta" placeholder="Número de Tarjeta" required>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2 pago_row">
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="vencimiento">Fecha de vencimiento</label>
+                                                    <input type="input" class="form-control input" id="vencimiento" placeholder="04/24" required>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6 col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-fecha-final">CVC</label>
+                                                    <input type="input" class="form-control input" id="cvc" placeholder="CVC" required>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4" />
+                                   
+                                    <div class="pl-lg-4">
+                                        <div class="row justify-content-end">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+
+                                                    <button id="btnconfirmarservicio" onclick="confirmarServicio()" type="button" class="btn btn-primary"> Confirmar Servicio</button>
+                                                    <button id="btnconfirmarpago" onclick="confirmarPago()" type="button" class="btn btn-success"> Confirmar Pago</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
         </div>
+
+        <div id="modalReestimacion" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box1">
+                            <i class="material-icons">&#xE5CD;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="estimacion">Nueva estimacion de Costo</label>
+                                                    <input type="input" class="form-control input" id="estimacion" placeholder="Estimacion de costo" required>
+
+                                                </div>
+                                            </div>
+
+                        </div>
+                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="motivo">Motivo</label>
+                                                    <input type="textarea" class="form-control textarea" id="motivo" placeholder="Motivo de solicitud de reestimación" required>
+
+                                                </div>
+                                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="id_solicitud_reestimacion">
+                        <button onclick="cerrar()" type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button onclick="enviarSolicitudReestimacion()" type="button" class="btn btn-success">Enviar Solicitud de Reestimación</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="modalEliminar" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box1">
+                            <i class="material-icons">&#xE5CD;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" id="textoModal">Seguro que desea cancelar esta solicitud?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="solicitudEliminar">
+                        <button onclick="cerrar()" type="button" class="btn btn-light" data-dismiss="modal">No</button>
+                        <button onclick="rechazarSolicitud()" type="button" class="btn btn-danger">Si</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons">&#xE876;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" id="textoModalConfirmacion"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="cerrar()" class="btn btn-success btn-block">OK</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="modalPago" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box1">
+                            <i class="material-icons">&#xE5CD;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" id="textoModal">Seguro que desea confirmar el pago del servicio?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="solicitudPago">
+                        <button onclick="cerrar()" type="button" class="btn btn-light" data-dismiss="modal">No</button>
+                        <button onclick="realizarPago()" type="button" class="btn btn-danger">Si</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
         <div class="footer">
 
             <footer class="footer-basic-centered">

@@ -20,4 +20,29 @@ $datosSolicitud = new datosSolicitud();
       echo $datosSolicitud->insertar($fecha_inicio, $fecha_final, $punto_inicio_lat, $punto_inicio_lon, $punto_final_lat, $punto_final_lon, $id_servicio, $place_id_inicio, $place_id_final);
     }else if ($accion == "consultarSolicitudesVendedor") {       
       echo $datosSolicitud->consultarSolicitudesVendedor();
+    }else if ($accion == "rechazarSolicitud") {     
+      $id = $_POST['id'];  
+      echo $datosSolicitud->rechazarSolicitud($id);
+    }else if ($accion == "estimarServicio") {     
+      $id = $_POST['id'];
+      $estimacion = $_POST['estimacion'];
+      echo $datosSolicitud->estimarServicio($id, $estimacion);
+    }else if ($accion == "consultarSolicitudesCliente") { 
+      echo $datosSolicitud->consultarSolicitudesCliente();
+    }else if($accion == "solicitudReestimacion"){
+      $id = $_POST['id'];
+      $estimacion = $_POST['estimacion'];
+      $motivo = $_POST['motivo'];
+      echo $datosSolicitud->solicitudReestimacion($id, $estimacion, $motivo);
+    }else if($accion == "aceptarReestimacion"){
+      $id = $_POST['id'];
+      $estado = "aceptada";
+      echo $datosSolicitud->actualizarEstadoReestimacion($id, $estado);
+    }else if($accion == "rechazarReestimacion"){
+      $id = $_POST['id'];
+      $estado = "rechazada";
+      echo $datosSolicitud->actualizarEstadoReestimacion($id, $estado);
+    }else if($accion == "realizarPago"){
+      $id = $_POST['id'];
+      echo $datosSolicitud->realizarPago($id);
     }
