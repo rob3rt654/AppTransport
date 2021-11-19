@@ -23,11 +23,31 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvqnZpS3wSkso426z5wlgxmT1R69q6NXM&libraries=places&callback=initMap"></script>
 
     <script src="../js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="../js/jquery.Maskmoney.js" type="text/javascript"></script>
     <script src="../js/bootstrap/bootstrap.min.js"></script>
     <script src="../js/bootstrap/popper.min.js"></script>
 
     <script src="../js/solicitudes_vendedor.js"></script>
     <script src="../js/cerrar_sesion.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#estimacion").maskMoney({
+                prefix: '₡',
+                allowNegative: false,
+                thousands: ',',
+                decimal: '.',
+                affixesStay: false,
+                masked: false
+            });
+        });
+    </script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
 </head>
 
 <body onload="llenarSolicitudes()">
@@ -184,12 +204,165 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
             </div>
         </div>
         <div class="container-fluid mt--7">
-        <div id="map"">
+        <div id="modalSolicitud" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Estimar Servicio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span onclick="cerrar()" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" name="id_solicitud" id="id_solicitud">
+                            <div class="pl-lg-3">
+                                    <h6 class="heading-small text-muted mb-4">Mapa</h6>
+                                    <div class="pl-lg-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-address">Origen</label>
+                                                    <input type="text" class="form-control input" id="searchInput" placeholder="Origen" required readonly>
+                                                    <input type="hidden" class="form-control input" id="nombrelugar1" placeholder="Origen" required>
 
-</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-address">Destino</label>
+                                                    <input type="text" class="form-control input" id="searchInput2" placeholder="Destino" required readonly>
+                                                    <input type="hidden" class="form-control input" id="nombrelugar2" placeholder="Origen" required>
 
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-duracion">Duración Promedio</label>
+                                                    <input type="text" class="form-control input" id="duracion" placeholder="Duración Promedio" required readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-distancia">Distancia</label>
+                                                    <input type="text" class="form-control input" id="distancia" placeholder="Distancia" required readonly>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div id="map" style="width: 530px; height: 300px;">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4" />
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="estimacion">Estimacion de Costo</label>
+                                                <input type="input" class="form-control input" id="estimacion" placeholder="Estimacion de costo" required>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="pl-lg-4">
+                                        <div class="row justify-content-end">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+
+                                                    <button id="btnAgregar" onclick="estimarServicio()" type="button" class="btn btn-primary">Guardar Cambios</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
+        </div>
+        <div id="modalEliminar" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box1">
+                            <i class="material-icons">&#xE5CD;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" id="textoModal">Seguro que desea rechazar esta solicitud?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="solicitudEliminar">
+                        <button onclick="cerrar()" type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button onclick="rechazarSolicitud()" type="button" class="btn btn-danger">Rechazar</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="modalVerReestimacion" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box1">
+                            <i class="material-icons">&#xE5CD;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">Motivo: </p>
+                        <p class="text-center" id="motivo"></p>
+                        <p class="text-center">Nueva Estimación: </p>
+                        <p class="text-center" id="nueva_estimacion"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="soli">
+                        <button onclick="rechazarReestimacion()" type="button" class="btn btn-danger" data-dismiss="modal">Rechazar Reestimación</button>
+                        <button onclick="aceptarReestimacion()" type="button" class="btn btn-success">Aceptar Reestimación</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="material-icons">&#xE876;</i>
+                        </div>
+
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center" id="textoModalConfirmacion"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="cerrar()" class="btn btn-success btn-block">OK</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <div class="footer">
 
             <footer class="footer-basic-centered">
