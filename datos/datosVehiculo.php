@@ -28,6 +28,24 @@ class datosVehiculo
     $crearConexion->close();
   }
 
+  function consultarUltimo()
+  {
+
+    $crearConexion = $this->conexion->crearConexion(1);
+    $consulta = "SELECT count(*) AS 'contador' FROM vehiculos";
+    $resultado = mysqli_query($crearConexion,$consulta);
+   
+    $vehiculos = array();
+    while ($result = $resultado->fetch_assoc()) {
+      array_push($vehiculos, $result);
+    }
+    //echo '**********';
+    //print_r($vehiculos['0']['contador']);
+    //die;
+    return $vehiculos;
+    $crearConexion->close();
+  }
+
 
   function insertar($Vehiculo,$vendedor)
   {

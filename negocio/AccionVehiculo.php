@@ -17,20 +17,24 @@ if($accion=="null" || !isset($_POST['accion'])){
 } 
 
 if($accion=="insertar"){
+    
     $color = $_POST['color'];
     $placa = $_POST['placa'];
     $peso = $_POST['peso'];
     $personas = $_POST['personas'];
     $tipo = $_POST['tipo'];
-    $imagen = $_POST['imagen'];
+   
+    $contador=$logicaVehiculo->consultarUltimo();
+   
+    
+    $imagen = $contador['0']['contador'].'-img.jpg' ;
+    
+    
+    $ruta='../imagenes/'.$imagen;
     session_start();
     $vehiculo = new Vehiculo($_SESSION['id'],$color, $placa,$imagen, $peso, $personas, $tipo);
-    //print_r($_POST);
-    //die;
-
-    //$directorio ="../imagenes/vehiculos/";
-
-    //$ruta = "vistas/imagenes/usuarios/".$imagen;
+    move_uploaded_file($_FILES['imagen']['tmp_name'],$ruta);
+  
 
     $logicaVehiculo->insertar($vehiculo,$_SESSION['id']);
     

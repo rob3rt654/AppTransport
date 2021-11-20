@@ -8,13 +8,13 @@ include_once "Modals/ModalVehiculo.php";
 
 
 
-<div class="container-fluid mt-3">
+<div class="container pt-3 ">
 <div class="row">
     <?php foreach ($vehiculos as $key => $value) :?>
     <div class="col-4">
         <div class="card " style="width: 18rem;">
         
-            <img class="card-img-top" src="../imagenes/1-img.jpg" alt="Card image cap">
+            <img class="card-img-top" src="../imagenes/<?php echo $value['imagenes'] ?>" alt="Card image cap">
             
             <div class="card-body">
             <h3 class="card-title">Vehiculo <?php echo $value['placa'] ?></h3>

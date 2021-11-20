@@ -22,6 +22,11 @@ class LogicaVehiculo
     {
         return $this->datos->consultar($id);
     }
+
+    public function consultarUltimo()
+    {
+        return $this->datos->consultarUltimo();
+    }
     public function actualizar($vehiculo,$id)
     {
 

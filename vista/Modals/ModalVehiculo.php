@@ -9,7 +9,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form action="AccionVehiculo.php" method="POST">
+      <form action="AccionVehiculo.php" method="post" enctype="multipart/form-data">
       <input type="hidden" class="form-control" id="accion" name="accion"  value="insertar">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Color</label>
@@ -31,7 +31,7 @@
 
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Imagen</label>
-            <input type="file" class="form-control" id="imagen" name="imagen"> 
+            <input type="file" class="form-control" name="imagen"> 
           </div>
 
           <div class="form-group">
