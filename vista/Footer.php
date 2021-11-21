@@ -1,9 +1,9 @@
-<div class="footer">
+<div class="footer mt-5 pt-5">
 
 <footer class="footer-basic-centered">
 
     <div class="footer-company-name">
-        <h1>Universidad Nacional de Costa Rica</h1>
+        
         <p>Smart Transport</p>
 
     </div>

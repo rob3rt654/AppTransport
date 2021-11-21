@@ -4,28 +4,59 @@ include '../dominio/Vehiculo.php';
 $accion = (isset($_POST['accion'])) ? $_POST['accion'] : 'null' ;
 
 $logicaVehiculo = new logicaVehiculo();
+
+if($accion=="null" || !isset($_POST['accion'])){
+    
+    session_start();
+    $vehiculos=$logicaVehiculo->consultar($_SESSION['id']);
+    //print_r($vehiculos);
+
+    
+   
+    include_once "../vista/vistaVehiculos.php";
+} 
+
 if($accion=="insertar"){
+    
     $color = $_POST['color'];
     $placa = $_POST['placa'];
     $peso = $_POST['peso'];
     $personas = $_POST['personas'];
     $tipo = $_POST['tipo'];
-    $vehiculo = new Vehiculo("1",$color, $placa,'imagen.png', $peso, $personas, $tipo);
+   
+    $contador=$logicaVehiculo->consultarUltimo();
+   
+    
+    $imagen = $contador['0']['contador'].'-img.jpg' ;
+    
+    
+    $ruta='../imagenes/'.$imagen;
+    session_start();
+    $vehiculo = new Vehiculo($_SESSION['id'],$color, $placa,$imagen, $peso, $personas, $tipo);
+    move_uploaded_file($_FILES['imagen']['tmp_name'],$ruta);
+  
 
+    $logicaVehiculo->insertar($vehiculo,$_SESSION['id']);
     
-    $logicaVehiculo->insertar($vehiculo);
-    
+    $vehiculos=$logicaVehiculo->consultar($_SESSION['id']);
     include_once "../vista/vistaVehiculos.php";
 }
 
-if($accion=="null"){
+if($accion=="editar"){
 
-    $logicaVehiculo->consultar();
+    $color = $_POST['color'];
+    $id = $_POST['id'];
+    $peso = $_POST['peso'];
+    $personas = $_POST['personas'];
+    $vehiculo = new Vehiculo('1',$color, '1','1', $peso, $personas, '1');
+    //$logicaVehiculo->editar($vehiculo,$_SESSION['id']);
+    session_start();
+    $vehiculos=$logicaVehiculo->actualizar($vehiculo,$id);
+    $vehiculos=$logicaVehiculo->consultar($_SESSION['id']);
     include_once "../vista/vistaVehiculos.php";
-} else if ($accion == "consultar") {
-    $id_vendedor = $_POST['id_vendedor'];
-    echo $logicaVehiculo->consultar($id_vendedor);
-
+    
 }
+
+
 
 ?>

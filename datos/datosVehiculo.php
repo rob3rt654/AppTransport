@@ -24,22 +24,43 @@ class datosVehiculo
       array_push($vehiculos, $result);
     }
 
-    return json_encode($vehiculos);
+    return $vehiculos;
+    $crearConexion->close();
+  }
+
+  function consultarUltimo()
+  {
+
+    $crearConexion = $this->conexion->crearConexion(1);
+    $consulta = "SELECT count(*) AS 'contador' FROM vehiculos";
+    $resultado = mysqli_query($crearConexion,$consulta);
+   
+    $vehiculos = array();
+    while ($result = $resultado->fetch_assoc()) {
+      array_push($vehiculos, $result);
+    }
+    //echo '**********';
+    //print_r($vehiculos['0']['contador']);
+    //die;
+    return $vehiculos;
     $crearConexion->close();
   }
 
 
-  function insertar($Vehiculo)
+  function insertar($Vehiculo,$vendedor)
   {
 
-    $nombre = $administrador->getNombre();
-    $apellidos = $administrador->getApellidos();
-    $correo = $administrador->getCorreo();
-    $contrasena = $administrador->getContrasena();
+    $id_vendedor = $vendedor;
+    $color = $Vehiculo->getColor();
+    $placa = $Vehiculo->getPlaca();
+    $imagenes = $Vehiculo->getImagenes();
+    $cantidad_peso = $Vehiculo->getCantidad_peso();
+    $cantidad_personas = $Vehiculo->getCantidad_personas();
+    $id_tipo_vehiculo = '1';
 
     $crearConexion = $this->conexion->crearConexion();
 
-    $insert = "INSERT INTO tbadministrador (nombre,apellidos,correo,contrasena) VALUES ('{$nombre}','{$apellidos}','{$correo}','{$contrasena}')";
+    $insert = "INSERT INTO vehiculos (id_vendedor,color,placa,imagenes,capacidad_peso,capacidad_personas,id_tipo_vehiculo) VALUES ('{$id_vendedor}','{$color}','{$placa}','{$imagenes}','{$cantidad_peso}','{$cantidad_personas}',1)";
 
     $result = mysqli_query($crearConexion,$insert);
 
@@ -47,18 +68,16 @@ class datosVehiculo
 
     return $result;
   }
-  function actualizar($administrador)
+  function actualizar($Vehiculo,$id)
   {
 
-    $nombre = $administrador->getNombre();
-    $apellidos = $administrador->getApellidos();
-    $correo = $administrador->getCorreo();
-    $contrasena = $administrador->getContrasena();
-    $id = $administrador->getId();
-    $crearConexion = $this->conexion->crearConexion();
+    $color = $Vehiculo->getColor();
+    $cantidad_peso = $Vehiculo->getCantidad_peso();
+    $cantidad_personas = $Vehiculo->getCantidad_personas();
 
-    $actualizar = "UPDATE tbadministrador SET nombre ='".$nombre."',apellidos ='".$apellidos."',
-    correo ='".$correo."', contrasena ='".$contrasena."' WHERE id =".$id;
+    $crearConexion = $this->conexion->crearConexion();
+    $actualizar = "UPDATE vehiculos SET color ='".$color."',capacidad_peso ='".$cantidad_peso."',
+    capacidad_personas ='".$cantidad_personas."' WHERE id_vehiculo =".$id;
 
   
     $result = mysqli_query($crearConexion,$actualizar);
