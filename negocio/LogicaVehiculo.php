@@ -23,6 +23,11 @@ class LogicaVehiculo
         return $this->datos->consultar($id);
     }
 
+    public function consultariban($id)
+    {
+        return $this->datos->consultariban($id);
+    }
+
     public function consultarUltimo()
     {
         return $this->datos->consultarUltimo();
@@ -31,6 +36,12 @@ class LogicaVehiculo
     {
 
         return $this->datos->actualizar($vehiculo,$id);
+    }
+
+    public function actualizarcuenta($cuenta,$id)
+    {
+
+        return $this->datos->actualizarcuenta($cuenta,$id);
     }
     public function eliminar($id)
     {
