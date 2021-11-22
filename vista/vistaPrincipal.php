@@ -66,6 +66,9 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                             <h6 class="text-overflow m-0">Bienvenido!</h6>
                         </div>
 
+                        
+                            <a href="" class="dropdown-item">Mi cuenta iban</a>
+                        
                        
 
                         <div class="dropdown-divider"></div>
@@ -157,9 +160,10 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                             <div class=" dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">Bienvenido!</h6>
                             </div>
-
-                          
-
+                            <form action="../negocio/AccionVehiculo.php" method="POST">
+                            <input type="hidden" class="form-control" id="accion" name="accion"  value="cargarcuenta">
+                            <button type="submit" class="btn btn-primary ml-3">Cuenta iban</button>
+                            </form>
                             <div class="dropdown-divider"></div>
                             <button onclick="cerrarSesion()" class="dropdown-item">
 
@@ -193,7 +197,7 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
 
                 <div class="footer-company-name">
                     <h1>Universidad Nacional de Costa Rica</h1>
-                    <p>Smart Transport</p>
+                    <p>Smart Transport </p>
 
                 </div>
 

@@ -28,6 +28,23 @@ class datosVehiculo
     $crearConexion->close();
   }
 
+
+
+  function consultariban($id_vendedor)
+  {
+
+    $crearConexion = $this->conexion->crearConexion($id_vendedor);
+    $consulta = "SELECT * FROM vendedores where id_persona=".$id_vendedor;
+    $resultado = mysqli_query($crearConexion,$consulta);
+    $vehiculos = array();
+    while ($result = $resultado->fetch_assoc()) {
+      array_push($vehiculos, $result);
+    }
+
+    return $vehiculos;
+    $crearConexion->close();
+  }
+
   function consultarUltimo()
   {
 
@@ -86,6 +103,20 @@ class datosVehiculo
 
     return $result;
   }
+
+  function actualizarcuenta($cuenta,$id)
+  {
+    $crearConexion = $this->conexion->crearConexion();
+    $actualizar = "UPDATE vendedores SET cuenta_iban ='".$cuenta."' WHERE id_persona =".$id;
+
+  
+    $result = mysqli_query($crearConexion,$actualizar);
+
+    $crearConexion->close();
+
+    return $result;
+  }
+
   function eliminar($id)
   {
     $crearConexion = $this->conexion->crearConexion();

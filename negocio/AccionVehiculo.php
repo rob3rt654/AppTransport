@@ -16,6 +16,28 @@ if($accion=="null" || !isset($_POST['accion'])){
     include_once "../vista/vistaVehiculos.php";
 } 
 
+if($accion=="cuenta"){
+    session_start();
+    //echo $_SESSION['id'];
+    $cuenta = $_POST['cuentaiban'];
+    
+    //print_r($vendedor['0']);
+    //$vendedor['0']['cuenta_iban']='000';
+    $contador=$logicaVehiculo->actualizarcuenta($cuenta,$_SESSION['id']);
+    $vendedor=$logicaVehiculo->consultariban($_SESSION['id']);
+    include_once "../vista/vistaCuentaIban.php";
+}
+
+if($accion=="cargarcuenta"){
+    session_start();
+    $vendedor=$logicaVehiculo->consultariban($_SESSION['id']);
+    //print_r($vendedor['0']);
+    //$vendedor['0']['cuenta_iban']='000';
+    include_once "../vista/vistaCuentaIban.php";
+    
+    
+}
+
 if($accion=="insertar"){
     
     $color = $_POST['color'];

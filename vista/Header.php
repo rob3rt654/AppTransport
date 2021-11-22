@@ -107,7 +107,7 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                 <!-- Navigation -->
                 <ul class="navbar-nav">
                     <li class="nav-item  active ">
-                        <a class="nav-link  active " href="vistaPrincipal.php">
+                        <a class="nav-link  active " href="../vista/vistaPrincipal.php">
                             <i class="fas fa-home text-primary"></i> Principal
                         </a>
                     </li>
@@ -117,8 +117,14 @@ if ($_SESSION['id'] == "" || $_SESSION['id'] == null) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="vistaExtras.php">
-                            <i class="fas fa-cogs text-orange"></i> Extras
+                        <a class="nav-link " href="../vista/vistaServicios.php">
+                            <i class="fas fa-dolly text-orange"></i> Servicios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../vista/vistaSolicitudesVendedor.php">
+                        <i class="fas fa-clipboard-list text-red"></i> Solicitudes
+
                         </a>
                     </li>
         
