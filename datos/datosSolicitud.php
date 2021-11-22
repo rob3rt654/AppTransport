@@ -43,12 +43,12 @@ class datosSolicitud
     $crearConexion->close();
   }
 
-  function insertar($fecha_inicio, $fecha_final, $punto_inicio_lat, $punto_inicio_lon, $punto_final_lat, $punto_final_lon, $id_servicio, $place_id_inicio, $place_id_final)
+  function insertar($fecha_inicio, $fecha_final, $punto_inicio_lat, $punto_inicio_lon, $punto_final_lat, $punto_final_lon, $id_servicio, $place_id_inicio, $place_id_final, $cantidad_personas)
   {
 
     $crearConexion = $this->conexion->crearConexion();
 
-    $insert = "INSERT INTO solicitudes (id_cliente,id_servicio,fecha_inicio,fecha_final,punto_inicio_lat, punto_final_lat, punto_inicio_lon, punto_final_lon, place_id_inicio, place_id_final) VALUES ('{$_SESSION['id_usuario']}','{$id_servicio}','{$fecha_inicio}','{$fecha_final}','{$punto_inicio_lat}','{$punto_final_lat}','{$punto_inicio_lon}','{$punto_final_lon}','{$place_id_inicio}','{$place_id_final}')";
+    $insert = "INSERT INTO solicitudes (id_cliente,id_servicio,fecha_inicio,fecha_final,punto_inicio_lat, punto_final_lat, punto_inicio_lon, punto_final_lon, place_id_inicio, place_id_final, cantidad_personas) VALUES ('{$_SESSION['id_usuario']}','{$id_servicio}','{$fecha_inicio}','{$fecha_final}','{$punto_inicio_lat}','{$punto_final_lat}','{$punto_inicio_lon}','{$punto_final_lon}','{$place_id_inicio}','{$place_id_final}','{$cantidad_personas}')";
 
     $result = mysqli_query($crearConexion,$insert);
 
@@ -113,6 +113,43 @@ class datosSolicitud
 
     $result = mysqli_query($crearConexion,$update);
 
+    $crearConexion->close();
+
+    return $result;
+  }
+  function insertarMetodoPago($nombre, $numero, $vencimiento, $cvc)
+  {
+
+    $crearConexion = $this->conexion->crearConexion();
+
+    $insert = "INSERT INTO metodo_pagos (numero_tarjeta,fecha_vencimiento,cvc,nombre_propietario,id_cliente) VALUES ('{$numero}','{$vencimiento}','{$cvc}','{$nombre}','{$_SESSION['id_usuario']}')";
+
+    $result = mysqli_query($crearConexion,$insert);
+
+    $crearConexion->close();
+
+    return $result;
+  }
+  function insertarPago(){
+    $crearConexion = $this->conexion->crearConexion();
+    $rs = mysqli_query($crearConexion, "SELECT MAX(id_metodo_pago) AS id FROM metodo_pagos");
+    while($row = $rs->fetch_assoc()){
+      $id = $row['id'];
+    }
+    $insert = "INSERT INTO pagos (tipo_pago,id_metodo) VALUES ('total','{$id}')";
+    $result = mysqli_query($crearConexion,$insert);
+    $crearConexion->close();
+
+    return $result;
+  }
+  function insertarSolicitudPago($id_solicitud){
+    $crearConexion = $this->conexion->crearConexion();
+    $rs = mysqli_query($crearConexion, "SELECT MAX(id_pago) AS id FROM pagos");
+    while($row = $rs->fetch_assoc()){
+      $id = $row['id'];
+    }
+    $insert = "INSERT INTO solicitudes_pagos (id_solicitud,id_pago) VALUES ('{$id_solicitud}','{$id}')";
+    $result = mysqli_query($crearConexion,$insert);
     $crearConexion->close();
 
     return $result;

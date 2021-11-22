@@ -57,7 +57,7 @@ function llenarSolicitudes() {
           retorno += "<i class='" + "fas fa-check" + "'></i>";
           retorno += " Confirmado y pagado </span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "abrirModalSolicitud2('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud2('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
         }else if(obj[i].estimacion == null){
           retorno += "<span class='" + "badge badge-dot mr-4 mt-3" + "'><i class=bg-warning></i> Esperando estimacion...</span>";
@@ -69,11 +69,11 @@ function llenarSolicitudes() {
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Estimacion: " + obj[i].estimacion + "</span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a>"
           retorno += "<button  onclick= \"" + "solicitarNuevaEstimacion('" +obj[i].id_solicitud+ "')\"" 
           + "class='" + "btn btn-danger mt-2" + "'>Solicitar Reestimación</a>"
-          retorno += "<button  onclick= \"" + "confirmarServicio('" +obj[i].id_solicitud+ "')\"" 
+          retorno += "<button  onclick= \"" + "confirmarServicioDirecto('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-primary mt-2" + "'>Confirmar Servicio</a></button>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == null){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-md" + "'>";
@@ -84,7 +84,7 @@ function llenarSolicitudes() {
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += "  Tu estimación: " + obj[i].reestimacion + "</span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
           retorno += "<span class='" + "badge badge-dot ml-4 mt-3" + "'><i class=bg-warning></i> Esperando confirmación...</span>";
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == "rechazada"){
@@ -96,9 +96,9 @@ function llenarSolicitudes() {
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += "  Tu estimación: " + obj[i].reestimacion + " (rechazada)</span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
-          retorno += "<button  onclick= \"" + "confirmarServicio('" +obj[i].id_solicitud+ "')\"" 
+          retorno += "<button  onclick= \"" + "confirmarServicioDirecto('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-primary mt-2" + "'>Confirmar Servicio</a></button>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == "aceptada"){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-md" + "'>";
@@ -109,9 +109,9 @@ function llenarSolicitudes() {
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += "  Tu estimación: " + obj[i].reestimacion + " (aceptada)</span>";
           retorno += "</p>";
-          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          retorno += "<button  onclick= \"" + "abrirModalSolicitud('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-success mt-2" + "'>Ver detalles</a></button>"
-          retorno += "<button  onclick= \"" + "confirmarServicioDirecto('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "')\"" 
+          retorno += "<button  onclick= \"" + "confirmarServicioDirecto('" +obj[i].id_solicitud+ "', '" +obj[i].place_id_inicio+ "', '" +obj[i].place_id_final+ "', '" +obj[i].punto_inicio_lat+ "', '" +obj[i].punto_inicio_lon+ "', '" +obj[i].punto_final_lat+ "', '" +obj[i].punto_final_lon+ "', '" +obj[i].fecha_inicio+ "', '" +obj[i].fecha_final+ "', '" +obj[i].estimacion+ "', '" +obj[i].cantidad_personas+ "')\"" 
           + "class='" + "btn btn-primary mt-2" + "'>Confirmar Servicio</a></button>"
         }
          
@@ -150,7 +150,7 @@ function cancelarServicio(id){
   $("#modalEliminar").modal();
 }
 
-function abrirModalSolicitud(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion){
+function abrirModalSolicitud(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion, cant_personas){
   initMap();
   var punto1 = new google.maps.LatLng(lat1, lon1);
   var punto2 = new google.maps.LatLng(lat2, lon2);
@@ -162,11 +162,12 @@ function abrirModalSolicitud(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha
   $("#fechas").html(fecha_inicio+" - "+fecha_final);
   $("#viaje").html(lugar_1+" - "+lugar_2);
   $("#estimacion").html(estimacion+" colones");
+  $("#cantpersonas").html(cant_personas);
   $("#id_solicitud").val(id);
   $("#modalSolicitud").modal();
 }
 
-function abrirModalSolicitud2(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion){
+function abrirModalSolicitud2(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion, cant_personas){
   initMap();
   var punto1 = new google.maps.LatLng(lat1, lon1);
   var punto2 = new google.maps.LatLng(lat2, lon2);
@@ -178,15 +179,17 @@ function abrirModalSolicitud2(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fech
   $("#fechas").html(fecha_inicio+" - "+fecha_final);
   $("#viaje").html(lugar_1+" - "+lugar_2);
   $("#estimacion").html(estimacion+" colones");
+  $("#cantpersonas").html(cant_personas);
   $("#id_solicitud").val(id);
   $("#modalSolicitud").modal();
 }
 
-function confirmarServicioDirecto(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion){
+function confirmarServicioDirecto(id, lugar_1, lugar_2, lat1, lon1, lat2, lon2, fecha_inicio, fecha_final, estimacion, cant_personas){
   confirmarServicio();
   $("#fechas").html(fecha_inicio+" - "+fecha_final);
   $("#viaje").html(lugar_1+" - "+lugar_2);
   $("#estimacion").html(estimacion+" colones");
+  $("#cantpersonas").html(cant_personas);
   $("#id_solicitud").val(id);
   $("#modalSolicitud").modal();
 }
@@ -249,6 +252,10 @@ function realizarPago(){
     {
       accion: "realizarPago",
       id: $("#id_solicitud").val(),
+      nombre: $("#nombre").val(),
+      num_tarjeta: $("#num_tarjeta").val(),
+      vencimiento: $("#vencimiento").val(),
+      cvc: $("#cvc").val(),
     },
     function (responseText) {
       if (responseText == "1") {
