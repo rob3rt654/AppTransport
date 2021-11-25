@@ -217,6 +217,7 @@ function enviarSolicitudReestimacion(){
     function (responseText) {
       if (responseText == "1") {
         cerrar();
+        location.href = "./vistaSolicitudesCliente.php";
         $("#textoModalConfirmacion").html("Se ha enviado correctamente!");
         $("#myModal").modal();
       } else {
@@ -260,6 +261,7 @@ function realizarPago(){
     function (responseText) {
       if (responseText == "1") {
         cerrar();
+        location.href = "./vistaSolicitudesCliente.php";
         $("#textoModalConfirmacion").html("Se ha realizado el pago con éxito!");
         $("#myModal").modal();
       } else {
