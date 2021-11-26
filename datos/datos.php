@@ -12,11 +12,11 @@ class Conexion
 
   function __construct()
   {
-    $this->server = "mysql-54437-0.cloudclusters.net";
+    $this->server = "mysql-59324-0.cloudclusters.net";
     $this->user = "admin";
-    $this->password = "P69grh4f";
+    $this->password = "3Lous2IX";
     $this->dbname = "appTransport";
-    $this->port = "12154";
+    $this->port = "19497";
   }
 
   function crearConexion()
