@@ -49,12 +49,17 @@ function llenarSolicitudes() {
         retorno += "<i class='" + "fas fa-calendar" + "'></i>";
         retorno += " " + obj[i].fecha_inicio + " - " + obj[i].fecha_final + "</span>";
         retorno += "</p>";
+        retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
+        retorno += "<span class='" + "text-primary mr-2" + "'>";
+        retorno += "<i class='" + "fas fa-users" + "'></i>";
+        retorno += " Cantidad de Personas: " + obj[i].cantidad_personas +  "</span>";
+        retorno += "</p>";
         retorno += "<div class=row>";
         retorno += "<div class=col-md-12>";
         if(obj[i].estado == 'confirmado'){
           costo = obj[i].reestimacion != null ?  obj[i].reestimacion : obj[i].estimacion 
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
-          retorno += "<span class='" + "text-success mr-2" + "'>";
+          retorno += "<span class='" + "text-warning mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Costo: " + costo+ "</span>";
           retorno += "</p>";
@@ -71,7 +76,7 @@ function llenarSolicitudes() {
           retorno += "<button onclick=abrirModalRechazar('" +obj[i].id_solicitud+ "') class='" + " btn btn-danger mt-2" + "'>Rechazar</a>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion == null){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
-          retorno += "<span class='" + "text-success mr-2" + "'>";
+          retorno += "<span class='" + "text-warning mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Estimacion: " + obj[i].estimacion + "</span>";
           retorno += "</p>";
@@ -79,7 +84,7 @@ function llenarSolicitudes() {
           + "class='" + "btn btn-success mt-2" + "'>Acualizar Costo</a>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == null){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
-          retorno += "<span class='" + "text-success mr-2" + "'>";
+          retorno += "<span class='" + "text-warning mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Estimacion: " + obj[i].estimacion + "</span>";
           retorno += "<span class='" + "text-danger mr-2" + "'>";
@@ -90,7 +95,7 @@ function llenarSolicitudes() {
           + "class='" + "btn btn-primary mt-2" + "'>Ver Reestimación</a>"
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == "rechazada"){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
-          retorno += "<span class='" + "text-success mr-2" + "'>";
+          retorno += "<span class='" + "text-warning mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Estimacion: " + obj[i].estimacion + "</span>";
           retorno += "<span class='" + "text-danger mr-2" + "'>";
@@ -100,7 +105,7 @@ function llenarSolicitudes() {
           retorno += "<span class='" + "badge badge-dot ml-1 mt-3" + "'><i class=bg-warning></i> Esperando confirmación...</span>";
         }else if(obj[i].estimacion != null && obj[i].reestimacion != null && obj[i].estado_reestimacion == "aceptada"){
           retorno += "<p class='" + "mt-3 mb-0 text-muted text-sm" + "'>";
-          retorno += "<span class='" + "text-success mr-2" + "'>";
+          retorno += "<span class='" + "text-warning mr-2" + "'>";
           retorno += "<i class='" + "fas fa-money-bill-alt" + "'></i>";
           retorno += " Estimacion: " + obj[i].estimacion + "</span>";
           retorno += "<span class='" + "text-success mr-2" + "'>";

@@ -215,7 +215,8 @@ function solicitarServicio(){
         punto_final_lon: lon_2,
         id_servicio: $("#id_servicio").val(),
         place_id_inicio: $("#nombrelugar1").val(),
-        place_id_final: $("#nombrelugar2").val()
+        place_id_final: $("#nombrelugar2").val(),
+        cantidad_personas: $("#cantidad_personas").val()
       },
       function (responseText) {
         if (responseText == "1") {

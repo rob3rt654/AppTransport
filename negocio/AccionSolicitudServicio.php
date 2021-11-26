@@ -16,8 +16,9 @@ $datosSolicitud = new datosSolicitud();
       $id_servicio = $_POST['id_servicio'];
       $place_id_inicio = $_POST['place_id_inicio'];
       $place_id_final = $_POST['place_id_final'];
+      $cantidad_personas = $_POST['cantidad_personas'];
        
-      echo $datosSolicitud->insertar($fecha_inicio, $fecha_final, $punto_inicio_lat, $punto_inicio_lon, $punto_final_lat, $punto_final_lon, $id_servicio, $place_id_inicio, $place_id_final);
+      echo $datosSolicitud->insertar($fecha_inicio, $fecha_final, $punto_inicio_lat, $punto_inicio_lon, $punto_final_lat, $punto_final_lon, $id_servicio, $place_id_inicio, $place_id_final, $cantidad_personas);
     }else if ($accion == "consultarSolicitudesVendedor") {       
       echo $datosSolicitud->consultarSolicitudesVendedor();
     }else if ($accion == "rechazarSolicitud") {     
@@ -44,5 +45,16 @@ $datosSolicitud = new datosSolicitud();
       echo $datosSolicitud->actualizarEstadoReestimacion($id, $estado);
     }else if($accion == "realizarPago"){
       $id = $_POST['id'];
-      echo $datosSolicitud->realizarPago($id);
+      $nombre = $_POST['nombre'];
+      $num_tarjeta = $_POST['num_tarjeta'];
+      $vencimiento = $_POST['vencimiento'];
+      $cvc = $_POST['cvc'];
+      if($datosSolicitud->insertarMetodoPago($nombre, $num_tarjeta, $vencimiento, $cvc) == 1){
+        if($datosSolicitud->insertarPago() == 1){
+          if($datosSolicitud->insertarSolicitudPago($id) == 1){
+            echo $datosSolicitud->realizarPago($id);
+          }
+        }
+      }
+      
     }
